@@ -1,13 +1,18 @@
-<script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
+<script lang="ts">
+import { RouterView } from 'vue-router'
+import Header from '@/components/Header.vue'
+
+export default {
+  components: {
+    Header
+  }
+}
 </script>
 
 <template>
-  <header>
-    <h1>Spotify App</h1>
-  </header>
+  <Header />
 
-  <RouterView />
+  <RouterView class="router" />
 </template>
 
 <style scoped></style>

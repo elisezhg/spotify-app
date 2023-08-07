@@ -29,22 +29,26 @@ export default {
 </script>
 
 <template>
-  <h1>Login page</h1>
-  <button class="login-btn" @click="login">Login with Spotify</button>
+  <div class="login">
+    <p>Login with your Spotify account to get started!</p>
+    <button class="login-btn" @click="login">Login with Spotify</button>
+  </div>
 </template>
 
 <style scoped>
-.login-btn {
-  border: none;
-  border-radius: 0.5rem;
-  padding: 0.75rem 1rem;
-  font-weight: bold;
-  font-size: 1.1rem;
-  background-color: black;
-  color: white;
+.login {
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.25rem;
 }
-
-.login-btn:hover {
-  cursor: pointer;
+.login-btn {
+  margin-top: 4rem;
+  padding: 1.25rem 3rem;
+  font-size: 1.25rem;
+  font-weight: bold;
+  border-radius: 1.75rem;
 }
 </style>

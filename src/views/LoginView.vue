@@ -31,6 +31,5 @@ export default {
 <template>
   <main>
     <Login v-if="!isLoggedIn" />
-    <p>{{ isLoggedIn ? 'Logged in' : 'Logged out' }}</p>
   </main>
 </template>
