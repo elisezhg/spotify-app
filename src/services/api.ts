@@ -25,14 +25,12 @@ export async function getMe() {
   return await get(`v1/me`)
 }
 
-export async function postToken() {
+export async function postToken(code: string) {
   let codeVerifier = localStorage.getItem('code_verifier')!
-
-  const code = new URLSearchParams(window.location.search).get('code')!
 
   let body = new URLSearchParams({
     grant_type: 'authorization_code',
-    code: code,
+    code,
     redirect_uri: import.meta.env.VITE_LOCALHOST_URI,
     client_id: import.meta.env.VITE_CLIENT_ID,
     code_verifier: codeVerifier

@@ -1,26 +1,16 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onBeforeMount } from 'vue'
 import { useRouter, onBeforeRouteLeave } from 'vue-router'
 import Login from '@/components/Login.vue'
 
 const isLoggedIn = ref(false)
 const router = useRouter()
 
-onMounted(() => {
+onBeforeMount(() => {
   // TODO: manage login state
-  isLoggedIn.value = router.currentRoute.value.query.code != null
-  console.log(router.currentRoute.value.query.code != null);
-
-  if (isLoggedIn.value) {
+  if (localStorage.getItem('access_token') != null) {
     router.push({ path: '/' })
   }
-})
-
-onBeforeRouteLeave((to, from, next) => {
-  if (from.query.code) {
-    to.query.code = from.query.code
-  }
-  next()
 })
 </script>
 
