@@ -40,6 +40,12 @@ jobs:
         run: npm install
       - name: Build
         run: npm run build
+        env:
+          VITE_CODE_VERIFIER_LENGTH: ${{ secrets.VITE_CODE_VERIFIER_LENGTH }}
+          VITE_STATE_LENGTH: ${{ secrets.VITE_STATE_LENGTH }}
+          VITE_USER_SCOPE: ${{ secrets.VITE_USER_SCOPE }}
+          VITE_LOCALHOST_URI: ${{ secrets.VITE_LOCALHOST_URI }}
+          VITE_CLIENT_ID: ${{ secrets.VITE_CLIENT_ID }}
       - name: Setup Pages
         uses: actions/configure-pages@v3
       - name: Upload artifact
