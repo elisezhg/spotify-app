@@ -1,39 +1,20 @@
-<script lang="ts">
+<script setup lang="ts">
 import router from '@/router'
-import Login from '../components/Login.vue'
 import { postToken, getMe } from '@/services/api'
+import { onMounted, ref } from 'vue'
 
-export default {
-  components: {
-    Login
-  },
-  data() {
-    return {
-      userInfo: null
-    }
-  },
-  mounted() {
-    // TODO: manage login state
-    const isLoggedIn = this.$route.query.code != null
+const userInfo = ref(null)
 
-    if (!isLoggedIn) {
-      router.push({ path: '/login' })
-    }
+onMounted(() => {
+  // TODO: manage login state
+  const isLoggedIn = router.currentRoute.value.query.code != null
 
-    if (!localStorage.getItem('access_token')) {
-      postToken()
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error('HTTP status ' + response.status)
-          }
-          return response.json()
-        })
-        .then((data) => {
-          localStorage.setItem('access_token', data.access_token)
-        })
-    }
+  if (!isLoggedIn) {
+    router.push({ path: '/login' })
+  }
 
-    getMe()
+  if (!localStorage.getItem('access_token')) {
+    postToken()
       .then((response) => {
         if (!response.ok) {
           throw new Error('HTTP status ' + response.status)
@@ -41,10 +22,20 @@ export default {
         return response.json()
       })
       .then((data) => {
-        this.userInfo = data
+        localStorage.setItem('access_token', data.access_token)
+        getMe()
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error('HTTP status ' + response.status)
+            }
+            return response.json()
+          })
+          .then((data) => {
+            userInfo.value = data
+          })
       })
   }
-}
+})
 </script>
 
 <template>

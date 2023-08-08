@@ -1,42 +1,41 @@
-<script lang="ts">
-import { generateRandomString, hashString, encodeBase64 } from '../utils/strings'
+<script setup lang="ts">
+import { generateRandomString, hashString, encodeBase64 } from '@/utils/strings'
+import { useI18n } from 'vue-i18n'
 
-export default {
-  methods: {
-    async login() {
-      const codeVerifier = generateRandomString(import.meta.env.VITE_CODE_VERIFIER_LENGTH)
-      const codeChallenge = await hashString(codeVerifier)
-      const encodedCodeChallenge = encodeBase64(codeChallenge)
+const { t } = useI18n()
 
-      localStorage.setItem('code_verifier', codeVerifier)
+async function login() {
+  const codeVerifier = generateRandomString(import.meta.env.VITE_CODE_VERIFIER_LENGTH)
+  const codeChallenge = await hashString(codeVerifier)
+  const encodedCodeChallenge = encodeBase64(codeChallenge)
 
-      let state = generateRandomString(import.meta.env.VITE_STATE_LENGTH)
+  localStorage.setItem('code_verifier', codeVerifier)
 
-      let args = new URLSearchParams({
-        response_type: 'code',
-        client_id: import.meta.env.VITE_CLIENT_ID,
-        scope: import.meta.env.VITE_USER_SCOPE,
-        redirect_uri: import.meta.env.VITE_LOCALHOST_URI,
-        state: state,
-        code_challenge_method: 'S256',
-        code_challenge: encodedCodeChallenge
-      })
+  let state = generateRandomString(import.meta.env.VITE_STATE_LENGTH)
 
-      window.location.href = 'https://accounts.spotify.com/authorize?' + args
-    }
-  }
+  let args = new URLSearchParams({
+    response_type: 'code',
+    client_id: import.meta.env.VITE_CLIENT_ID,
+    scope: import.meta.env.VITE_USER_SCOPE,
+    redirect_uri: import.meta.env.VITE_LOCALHOST_URI,
+    state: state,
+    code_challenge_method: 'S256',
+    code_challenge: encodedCodeChallenge
+  })
+
+  window.location.href = 'https://accounts.spotify.com/authorize?' + args
 }
 </script>
 
 <template>
-  <div class="login">
-    <p>Login with your Spotify account to get started!</p>
-    <button class="login-btn" @click="login">Login with Spotify</button>
+  <div class="login-container">
+    <p>{{ t('login.title') }}</p>
+    <button class="btn login-btn" @click="login">{{ t('login.btn-label') }}</button>
   </div>
 </template>
 
 <style scoped>
-.login {
+.login-container {
   text-align: center;
   position: absolute;
   top: 50%;

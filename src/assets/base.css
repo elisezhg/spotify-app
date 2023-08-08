@@ -20,12 +20,3 @@ body {
   background: var(--color-black);
 }
 
-button {
-  border: none;
-  background: var(--color-green-dark);
-  color: var(--color-white);
-}
-
-button:hover {
-  cursor: pointer;
-}
