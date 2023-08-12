@@ -7,5 +7,10 @@
   "login": {
     "title": "Login with your Spotify account to get started!",
     "btn-label": "Login with Spotify"
+  },
+  "user-info": {
+    "followers": "0 follower | {count} followers",
+    "songs": "0 liked song | {count} liked songs",
+    "playlists": "0 playlist | {count} playlists"
   }
 }

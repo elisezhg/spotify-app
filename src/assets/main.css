@@ -1,5 +1,16 @@
 @import './base.css';
 
+#app {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.router {
+  flex-grow: 1;
+  flex-direction: column;
+}
+
 .desktop {
   display: none;
 }
@@ -7,6 +18,12 @@
 @media (min-width: 480px) {
   .desktop {
     display: inherit;
+  }
+}
+
+@media (min-width: 768px) {
+  .router {
+    flex-direction: row;
   }
 }
 

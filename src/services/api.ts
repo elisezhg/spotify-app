@@ -25,6 +25,14 @@ export async function getMe() {
   return await get(`v1/me`)
 }
 
+export async function getUserPlaylists() {
+  return await get(`v1/me/playlists`)
+}
+
+export async function getUserTracks() {
+  return await get(`v1/me/tracks`)
+}
+
 export async function postToken(code: string) {
   let codeVerifier = localStorage.getItem('code_verifier')!
 
