@@ -43,9 +43,11 @@ a {
   display: inline-block;
 }
 
-a:hover {
-  color: var(--color-white);
-  transform: translateY(2px);
+@media (hover: hover) {
+  a:hover {
+    color: var(--color-white);
+    transform: translateY(2px);
+  }
 }
 
 .active {
