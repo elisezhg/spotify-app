@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
+import UserIcon from '@/assets/icons/user.svg'
+import HeartIcon from '@/assets/icons/heart.svg'
+import PlaylistIcon from '@/assets/icons/playlist.svg'
 
 const { t } = useI18n()
 
@@ -29,15 +32,15 @@ function getFlagEmoji(countryCode: string) {
     </div>
     <div>
       <div class="stat">
-        <img src="icons/user.svg" />
+        <UserIcon />
         <p>{{ t('user-info.followers', userInfo.followers.total) }}</p>
       </div>
       <div class="stat">
-        <img src="icons/heart.svg" />
+        <HeartIcon />
         <p>{{ t('user-info.songs', userTracks.total) }}</p>
       </div>
       <div class="stat">
-        <img src="icons/playlist.svg" />
+        <PlaylistIcon />
         <p>{{ t('user-info.playlists', userPlaylists.total) }}</p>
       </div>
     </div>
@@ -77,8 +80,9 @@ function getFlagEmoji(countryCode: string) {
   align-items: center;
 }
 
-.stat > img {
+.stat > svg {
   width: 1.5rem;
+  height: 1.5rem;
 }
 
 @media (min-width: 768px) {
