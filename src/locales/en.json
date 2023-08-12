@@ -4,6 +4,11 @@
     "language-switch": "FR",
     "open-spotify-btn-label": "Open Spotify"
   },
+  "navigation": {
+    "stats": "Stats",
+    "discover": "Discover",
+    "whats-new": "What's new"
+  },
   "login": {
     "title": "Login with your Spotify account to get started!",
     "btn-label": "Login with Spotify"

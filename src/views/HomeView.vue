@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import MainContent from '@/components/MainContent.vue'
+import NavBar from '@/components/NavBar.vue'
 import UserInfo from '@/components/UserInfo.vue'
 import { getMe, getUserPlaylists, getUserTracks } from '@/services/api'
 import { onMounted, ref } from 'vue'
+import { RouterView } from 'vue-router'
 
 const userInfo = ref(null as any) // TODO: typing
 const userPlaylists = ref(null as any)
@@ -44,26 +45,27 @@ onMounted(() => {
 </script>
 
 <template>
-  <main>
-    <!-- TODO: skeleton if still loading -->
-    <UserInfo
-      v-if="userInfo && userPlaylists && userTracks"
-      :user-info="userInfo"
-      :user-playlists="userPlaylists"
-      :user-tracks="userTracks"
-    />
-    <MainContent />
-  </main>
+  <!-- TODO: skeleton if still loading -->
+  <UserInfo
+    v-if="userInfo && userPlaylists && userTracks"
+    :user-info="userInfo"
+    :user-playlists="userPlaylists"
+    :user-tracks="userTracks"
+  />
+  <div class="main-content">
+    <NavBar />
+    <RouterView />
+  </div>
 </template>
 
 <style scoped>
-main {
+.main-content {
+  flex: 1;
   display: flex;
-  margin: 2rem;
-  align-items: stretch;
+  flex-direction: column;
 }
 
-main > * {
+.main-content > :last-child {
   flex: 1;
 }
 </style>

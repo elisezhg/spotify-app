@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { RouterView, useRoute, useRouter } from 'vue-router'
+import { RouterView, useRouter } from 'vue-router'
 import Header from '@/components/Header.vue'
 import { onBeforeMount } from 'vue'
 import { postToken } from './services/api'
@@ -36,7 +36,9 @@ onBeforeMount(() => {
 <template>
   <Header />
 
-  <RouterView class="router" />
+  <main class="router">
+    <RouterView />
+  </main>
 </template>
 
 <style scoped></style>
