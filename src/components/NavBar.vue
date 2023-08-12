@@ -6,7 +6,7 @@ const { t } = useI18n()
 const router = useRouter()
 
 function handleClick(e: any) {
-  const path = e.target.href.split('/').pop()
+  const path = e.target.href.split('/').at(-1)
   router.push(path)
 }
 

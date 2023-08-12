@@ -24,7 +24,7 @@ function getFlagEmoji(countryCode: string) {
 <template>
   <div v-if="userInfo && userPlaylists && userTracks" class="user-info">
     <div>
-      <img :src="userInfo?.images?.pop().url" class="user-profile-picture" />
+      <img :src="userInfo?.images.at(-1).url" class="user-profile-picture" />
       <p class="username">
         <b>{{ userInfo.display_name }}</b>
         {{ getFlagEmoji(userInfo.country) }}
