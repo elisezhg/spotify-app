@@ -1,14 +1,16 @@
 <script setup lang="ts">
-import { ref, onMounted, onBeforeMount } from 'vue'
-import { useRouter, onBeforeRouteLeave } from 'vue-router'
+import { onBeforeMount } from 'vue'
+import { useRouter } from 'vue-router'
 import Login from '@/components/Login.vue'
+import { inject } from 'vue'
+import type IsLoggedInType from '@/types/is-logged-in'
 
-const isLoggedIn = ref(false)
+const { isLoggedIn } = inject('isLoggedIn') as IsLoggedInType
 const router = useRouter()
 
 onBeforeMount(() => {
-  // TODO: manage login state
-  if (localStorage.getItem('access_token') != null) {
+  if (isLoggedIn.value) {
+    console.log('redirecting to /')
     router.push({ path: '/' })
   }
 })

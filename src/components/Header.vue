@@ -2,8 +2,10 @@
 import { useI18n } from 'vue-i18n'
 import NavLinksDesktop from '@/components/NavLinksDesktop.vue'
 import NavLinksMobile from '@/components/NavLinksMobile.vue'
+import { inject } from 'vue'
+import type IsLoggedInType from '@/types/is-logged-in'
 
-const { isLoggedIn } = defineProps<{ isLoggedIn: boolean }>()
+const { isLoggedIn } = inject('isLoggedIn') as IsLoggedInType
 
 const { t, locale } = useI18n()
 
@@ -16,7 +18,6 @@ function changeLanguage(newLanguage: string) {
   <header>
     <h1>{{ t('header.app-name') }}</h1>
     <div class="header-items">
-      {{ console.log(isLoggedIn) }}
       <div class="header-btns">
         <button
           class="btn language-toggle-btn"
