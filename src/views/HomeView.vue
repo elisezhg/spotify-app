@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import NavBar from '@/components/NavBar.vue'
 import UserInfo from '@/components/UserInfo.vue'
 import { getMe, getUserPlaylists, getUserTracks } from '@/services/api'
 import { onMounted, ref } from 'vue'
@@ -53,7 +52,6 @@ onMounted(() => {
     :user-tracks="userTracks"
   />
   <div class="main-content">
-    <NavBar />
     <RouterView />
   </div>
 </template>

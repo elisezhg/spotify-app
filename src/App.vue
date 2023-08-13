@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { RouterView, useRouter } from 'vue-router'
 import Header from '@/components/Header.vue'
-import { onBeforeMount } from 'vue'
+import { onBeforeMount, ref } from 'vue'
 import { postToken } from './services/api'
 
 const router = useRouter()
+const isLoggedIn = ref(false)
 
 // TODO: improve the logic to only check for the login code on '/'
 onBeforeMount(() => {
@@ -23,8 +24,7 @@ onBeforeMount(() => {
         localStorage.setItem('access_token', data.access_token)
       })
   } else {
-    // TODO: manage login state
-    const isLoggedIn = localStorage.getItem('access_token')
+    isLoggedIn.value = localStorage.getItem('access_token') != null
 
     if (!isLoggedIn) {
       router.push('/login')
@@ -34,7 +34,7 @@ onBeforeMount(() => {
 </script>
 
 <template>
-  <Header />
+  <Header :is-logged-in="isLoggedIn" />
 
   <main class="router">
     <RouterView />

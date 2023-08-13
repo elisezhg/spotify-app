@@ -1,5 +1,9 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
+import NavLinksDesktop from '@/components/NavLinksDesktop.vue'
+import NavLinksMobile from '@/components/NavLinksMobile.vue'
+
+const { isLoggedIn } = defineProps<{ isLoggedIn: boolean }>()
 
 const { t, locale } = useI18n()
 
@@ -11,13 +15,26 @@ function changeLanguage(newLanguage: string) {
 <template>
   <header>
     <h1>{{ t('header.app-name') }}</h1>
-    <button class="btn language-toggle-btn" @click="changeLanguage(t('header.language-switch'))">
-      {{ t('header.language-switch') }}
-    </button>
-    <div class="separator desktop" />
-    <a class="btn spotify-redirect-btn desktop" href="https://open.spotify.com/" target="_blank"
-      >{{ t('header.open-spotify-btn-label') }}
-    </a>
+    <div class="header-items">
+      {{ console.log(isLoggedIn) }}
+      <div class="header-btns">
+        <button
+          class="btn language-toggle-btn"
+          @click="changeLanguage(t('header.language-switch'))"
+        >
+          {{ t('header.language-switch') }}
+        </button>
+        <div :class="!isLoggedIn ? 'separator hide-tablet' : 'separator'" />
+        <a
+          class="btn spotify-redirect-btn hide-tablet hide-mobile"
+          href="https://open.spotify.com/"
+          target="_blank"
+          >{{ t('header.open-spotify-btn-label') }}
+        </a>
+        <NavLinksMobile v-if="isLoggedIn" />
+      </div>
+      <NavLinksDesktop v-if="isLoggedIn" class="hide-mobile hide-tablet" />
+    </div>
   </header>
 </template>
 
@@ -25,12 +42,23 @@ function changeLanguage(newLanguage: string) {
 header {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding: 1rem;
   gap: 1.25rem;
 }
 
-header > :first-child {
+.header-items {
   flex-grow: 1;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+}
+
+.header-btns {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
 }
 
 .language-toggle-btn {
@@ -52,5 +80,15 @@ header > :first-child {
   background: var(--color-gray);
   color: var(--color-white);
   text-decoration: none;
+}
+
+h1 {
+  font-size: 1.75rem;
+}
+
+@media (min-width: 992px) {
+  h1 {
+    font-size: 2rem;
+  }
 }
 </style>

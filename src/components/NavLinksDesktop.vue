@@ -31,26 +31,29 @@ function isActive(path: string) {
 
 <style scoped>
 nav {
-  margin-left: 2rem;
+  display: flex;
+  align-items: flex-start;
+  height: auto;
+  width: auto;
+  padding: 0;
 }
 
 a {
   color: var(--color-gray);
-  margin: 2rem;
-  text-decoration: none;
-  font-size: 1.25rem;
-  font-weight: 600;
   display: inline-block;
-}
-
-@media (hover: hover) {
-  a:hover {
-    color: var(--color-white);
-    transform: translateY(2px);
-  }
+  text-decoration: none;
+  font-weight: 600;
+  margin: 1rem;
+  font-size: 1.25rem;
 }
 
 .active {
   color: var(--color-green-dark);
+}
+
+@media (hover: hover) {
+  a:hover {
+    transform: translateY(3px);
+  }
 }
 </style>

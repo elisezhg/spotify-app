@@ -1,0 +1,29 @@
+@import './base.css';
+
+.hide {
+  display: none !important;
+}
+
+.hide-mobile {
+  display: none !important;
+}
+
+@media (min-width: 480px) {
+  .hide-mobile {
+    display: inherit !important;
+  }
+}
+
+.hide-tablet {
+  display: none !important;
+}
+
+@media (min-width: 768px) {
+  .hide-tablet {
+    display: inherit !important;
+  }
+
+  .show-tablet {
+    display: none !important;
+  }
+}
