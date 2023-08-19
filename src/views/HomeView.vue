@@ -1,57 +1,45 @@
 <script setup lang="ts">
 import UserInfo from '@/components/UserInfo.vue'
-import { getMe, getUserPlaylists, getUserTracks } from '@/services/api'
-import { onBeforeMount, onMounted, ref } from 'vue'
+import { fetchToken, getUserInfo, getUserPlaylists, getUserTracks } from '@/services/api'
+import { onBeforeMount } from 'vue'
 import { RouterView, useRouter } from 'vue-router'
 import { inject } from 'vue'
 import type IsLoggedInType from '@/types/is-logged-in'
 
-const userInfo = ref(null as any) // TODO: typing
-const userPlaylists = ref(null as any)
-const userTracks = ref(null as any)
-
 const { isLoggedIn } = inject('isLoggedIn') as IsLoggedInType
 const router = useRouter()
 
+const { data: userInfo, isLoading: isUserInfoLoading, refetch: fetchUserInfo } = getUserInfo()
+
+const {
+  data: userPlaylists,
+  isLoading: isUserPlaylistsLoading,
+  refetch: fetchUserPlaylists
+} = getUserPlaylists()
+
+const {
+  data: userTracks,
+  isLoading: isUserTracksLoading,
+  refetch: fetchUserTracks
+} = getUserTracks()
+
 onBeforeMount(() => {
-  if (!isLoggedIn.value) {
-    router.push({ path: '/login' })
-  }
-})
+  const code = new URLSearchParams(window.location.search).get('code')
 
-onMounted(() => {
-  if (isLoggedIn.value) {
-    getMe()
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('HTTP status ' + response.status)
-        }
-        return response.json()
-      })
-      .then((data) => {
-        userInfo.value = data
-      })
-
-    getUserTracks()
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('HTTP status ' + response.status)
-        }
-        return response.json()
-      })
-      .then((data) => {
-        userTracks.value = data
-      })
-    getUserPlaylists()
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('HTTP status ' + response.status)
-        }
-        return response.json()
-      })
-      .then((data) => {
-        userPlaylists.value = data
-      })
+  if (code) {
+    fetchToken((response: any) => {
+      localStorage.setItem('access_token', response.data.access_token)
+      router.push('/')
+      fetchUserInfo()
+      fetchUserPlaylists()
+      fetchUserTracks()
+    })
+  } else if (!isLoggedIn.value) {
+    router.push('/login')
+  } else {
+    fetchUserInfo()
+    fetchUserPlaylists()
+    fetchUserTracks()
   }
 })
 </script>
@@ -59,7 +47,7 @@ onMounted(() => {
 <template>
   <!-- TODO: skeleton if still loading -->
   <UserInfo
-    v-if="userInfo && userPlaylists && userTracks"
+    v-if="!isUserInfoLoading && !isUserPlaylistsLoading && !isUserTracksLoading"
     :user-info="userInfo"
     :user-playlists="userPlaylists"
     :user-tracks="userTracks"

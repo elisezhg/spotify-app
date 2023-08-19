@@ -1,54 +1,56 @@
-async function get(endpoint: string) {
-  const token = localStorage.getItem('access_token')
+import { useMutation, useQuery } from '@tanstack/vue-query'
+import axios from 'axios'
 
-  return await fetch(`https://api.spotify.com/${endpoint}`, {
-    headers: {
-      Authorization: `Bearer ${token}`
-    },
-    method: 'GET'
+function useQueryGet(endpoint: string) {
+  return useQuery({
+    queryKey: ['me', endpoint],
+    queryFn: () =>
+      axios.get(`https://api.spotify.com/${endpoint}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('access_token')}`
+        }
+      }),
+    select: (response: any) => response.data,
+    retry: 0,
+    enabled: false
   })
 }
 
-async function post(endpoint: string, body: {}) {
-  const token = localStorage.getItem('access_token')
-
-  return await fetch(`https://api.spotify.com/${endpoint}`, {
-    headers: {
-      Authorization: `Bearer ${token}`
-    },
-    method: 'POST',
-    body: JSON.stringify(body)
-  })
+export function getUserInfo() {
+  return useQueryGet('v1/me')
 }
 
-export async function getMe() {
-  return await get(`v1/me`)
+export function getUserPlaylists() {
+  return useQueryGet(`v1/me/playlists`)
 }
 
-export async function getUserPlaylists() {
-  return await get(`v1/me/playlists`)
+export function getUserTracks() {
+  return useQueryGet(`v1/me/tracks`)
 }
 
-export async function getUserTracks() {
-  return await get(`v1/me/tracks`)
+function fetchTokenQuery() {
+  const code = new URLSearchParams(window.location.search).get('code')!
+  const codeVerifier = localStorage.getItem('code_verifier')!
+
+  return axios.post(
+    'https://accounts.spotify.com/api/token',
+    new URLSearchParams({
+      grant_type: 'authorization_code',
+      code: code,
+      redirect_uri: import.meta.env.VITE_LOCALHOST_URI,
+      client_id: import.meta.env.VITE_CLIENT_ID,
+      code_verifier: codeVerifier
+    }),
+    {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    }
+  )
 }
 
-export async function postToken(code: string) {
-  let codeVerifier = localStorage.getItem('code_verifier')!
-
-  let body = new URLSearchParams({
-    grant_type: 'authorization_code',
-    code,
-    redirect_uri: import.meta.env.VITE_LOCALHOST_URI,
-    client_id: import.meta.env.VITE_CLIENT_ID,
-    code_verifier: codeVerifier
-  })
-
-  return await fetch('https://accounts.spotify.com/api/token', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded'
-    },
-    body: body
-  })
+export function fetchToken(callback: (response: any) => void) {
+  return useMutation(fetchTokenQuery, {
+    onSuccess: callback
+  }).mutate()
 }

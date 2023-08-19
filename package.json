@@ -13,6 +13,8 @@
     "format": "prettier --write ."
   },
   "dependencies": {
+    "@tanstack/vue-query": "^4.32.6",
+    "axios": "^1.4.0",
     "vue": "^3.3.4",
     "vue-i18n": "^9.3.0-beta.25",
     "vue-router": "^4.2.4"

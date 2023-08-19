@@ -10,7 +10,6 @@ const router = useRouter()
 
 onBeforeMount(() => {
   if (isLoggedIn.value) {
-    console.log('redirecting to /')
     router.push({ path: '/' })
   }
 })
